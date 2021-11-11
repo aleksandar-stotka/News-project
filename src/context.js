@@ -28,12 +28,15 @@ const AppProvider = ({ children }) => {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data);
+      dispatch({
+        type: SET_STORIES,
+        payload: { hits: data.hits, nbPages: data.nbPages },
+      });
     } catch (error) {}
   };
 
   useEffect(() => {
-    fetchStories(`${API_ENDPOINT}`);
+    fetchStories(`${API_ENDPOINT}query=${state.query}&page=${state.page}`);
   }, []);
 
   ////////////
